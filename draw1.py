@@ -1,6 +1,6 @@
 #from imageRead import imageClick
 import imageSegmenter2 as ImageSegment
-
+import pyscreenshot as ImageGrab
 #external imports
 from tkinter import *
 from tkinter.colorchooser import askcolor
@@ -53,7 +53,7 @@ class Paint(object):
         #wc = tkinter.Canvas(window,width='30',height='20',relief=tkinter.SUNKEN)
         #wc.pack(expand = tkinter.YES, fill = tkinter.BOTH,padx=10,pady=10)
         #105, 170, 700, 365
-        Label(self.root,text='Output:').pack(side=LEFT)
+        Label(self.root,text='Output:',font=('Helvetica',16)).pack(side=LEFT)
         self.outputHolder = StringVar()
         self.outputHolder.set('No output')
         self.output = Message(self.root,textvariable=self.outputHolder,  bg='white',fg='black',anchor='w',justify=LEFT,aspect=100000)
@@ -61,7 +61,7 @@ class Paint(object):
         
         self.setup()
         self.root.mainloop()
-
+        
     def setup(self):
         self.old_x = None
         self.old_y = None
@@ -107,7 +107,11 @@ class Paint(object):
         y1=widget.winfo_height()
         print(x,y,x1,y1)
         screenshot(region=(x+1,y+1,x1-2,y1-2)).save('Hello1.png')
+        im = ImageGrab.grab(bbox=(x+1, y+1, x+1+x1-2, y+1+y1-2))
+        #im.show()
+        im.save("Hello1.png")
         outputText = ImageSegment.getText()
+        print('Output has been obtained')
         self.outputHolder.set(outputText) 
     def reset(self, event):
         self.old_x, self.old_y = None, None
